@@ -13,6 +13,7 @@ import csrf from "csurf";
 import { exposeLocals } from "@lib/auth";
 import projectsRoutes from "@routes/projects";
 import authRouter from "@routes/auth";
+import boardRoutes from "@routes/board";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5000;
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
                 "https://cdn.tailwindcss.com",
                 "https://unpkg.com",
                 "https://cdn.jsdelivr.net",
+                (req, res) => `'nonce-${res.locals.cspNonce}'`,
             ],
             styleSrc: ["'self'", "'unsafe-inline'"],
             imgSrc: ["'self'", "data:"],
@@ -87,6 +89,22 @@ app.use(exposeLocals);
 app.get("/", (req, res) => res.redirect("/projects"));
 app.use("/projects", projectsRoutes);
 app.use("/auth", authRouter);
+app.use("/board", boardRoutes);
+
+app.use(
+    (
+        err: any,
+        req: express.Request,
+        res: express.Response,
+        _next: express.NextFunction
+    ) => {
+        if (err.code === "EBADCSRFTOKEN") {
+            return res.status(403).send("CSRF invalid token");
+        }
+        console.error(err);
+        res.status(500).send("Internal error");
+    }
+);
 
 app.listen(PORT, () =>
     console.log(`MINI JIRA: listening on http://localhost:${PORT}`)

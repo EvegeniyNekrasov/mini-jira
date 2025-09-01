@@ -1,0 +1,88 @@
+<% layout('layout') -%>
+<section class="mb-4 flex items-center gap-2">
+  <h1 class="text-2xl font-semibold"><%= project.name %> — Table</h1>
+  <div class="ml-auto">
+    <form class="flex gap-2" hx-post="/board/<%= project.id %>/issues" hx-target="#col-todo" hx-swap="beforeend">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input name="title" placeholder="Nueva tarea..." class="border rounded px-3 py-2" required>
+      <input name="description" placeholder="Descripción" class="border rounded px-3 py-2 hidden md:block">
+      <button class="px-3 py-2 bg-accent text-white rounded">Add</button>
+    </form>
+  </div>
+</section>
+
+
+<div class="grid md:grid-cols-3 gap-4">
+  <% const by = (st) => issues.filter(i => i.status === st); %>
+  <div>
+    <h2 class="font-semibold mb-2">To Do</h2>
+    <div id="col-todo" class="space-y-2 min-h-[200px]" hx-target="this">
+      <% for (const issue of by('TODO')) { %>
+      <%- include('_issue_card', { issue }) %>
+      <% } %>
+    </div>
+  </div>
+  <div>
+    <h2 class="font-semibold mb-2">In Progress</h2>
+    <div id="col-inprogress" class="space-y-2 min-h-[200px]" hx-target="this">
+      <% for (const issue of by('IN_PROGRESS')) { %>
+      <%- include('_issue_card', { issue }) %>
+      <% } %>
+    </div>
+  </div>
+  <div>
+    <h2 class="font-semibold mb-2">Done</h2>
+    <div id="col-done" class="space-y-2 min-h-[200px]" hx-target="this">
+      <% for (const issue of by('DONE')) { %>
+      <%- include('_issue_card', { issue }) %>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+
+<script nonce="<%= cspNonce %>" type="text/javascript">
+  document.addEventListener("dragstart", (e) => {
+    const card = e.target.closest("[data-issue]");
+    if (!card) return;
+    e.dataTransfer.setData("text/plain", card.dataset.issue);
+  });
+
+  const cols = [{
+      id: "col-todo",
+      status: "TODO",
+    },
+    {
+      id: "col-inprogress",
+      status: "IN_PROGRESS",
+    },
+    {
+      id: "col-done",
+      status: "DONE",
+    },
+  ];
+
+  cols.forEach(({
+    id,
+    status
+  }) => {
+    const el = document.getElementById(id);
+    el.addEventListener("dragover", (ev) => ev.preventDefault());
+    el.addEventListener("drop", (ev) => {
+      ev.preventDefault();
+      const issueId = ev.dataTransfer.getData("text/plain");
+      if (!issueId) return;
+      htmx.ajax("PUT", `/board/issues/${issueId}/status`, {
+        values: {
+          status,
+          _csrf: document.querySelector('meta[name="csrf-token"]')
+            .content,
+        },
+        target: `#${id}`,
+        swap: "beforeend",
+      });
+      const old = document.querySelector(`[data-issue="${issueId}"]`);
+      old?.remove();
+    });
+  });
+</script>
