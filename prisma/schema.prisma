@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-    provider: "sqlite"
-    url = env("DATABASE_URL")
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
 }
 
 model User {
@@ -16,6 +16,7 @@ model User {
     projects     Project[] @relation("OwnerProjects")
     issues       Issue[]   @relation("AssignedIssues")
     comments     Comment[]
+    Issue        Issue[]
 }
 
 model Project {
