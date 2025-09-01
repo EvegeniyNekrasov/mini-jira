@@ -3,6 +3,7 @@ import { prisma } from "@lib/db";
 import { Router } from "express";
 
 const projectsRoutes = Router();
+projectsRoutes.use(requireAuth);
 
 projectsRoutes.get("/", async (req, res) => {
     const projects = await prisma.project.findMany({

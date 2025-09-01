@@ -1,0 +1,20 @@
+<% layout('layout') -%>
+<section class="max-w-sm mx-auto bg-white border rounded-2xl p-4">
+  <h1 class="text-xl font-semibold mb-3">Enter</h1>
+  <% if (typeof error !== 'undefined') { %>
+  <p class="text-red-600 text-sm mb-2"><%= error %></p>
+  <% } %>
+  <form method="post" action="/auth/login">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <label class="block mb-2">
+      <span class="text-sm">Email</span>
+      <input placeholder="email" name="email" type="email" class="mt-1 w-full border rounded px-3 py-2" required>
+    </label>
+    <label class="block mb-4">
+      <span class="text-sm">Password</span>
+      <input placeholder="password" name="password" type="password" class="mt-1 w-full border rounded px-3 py-2" required>
+    </label>
+    <button class="w-full bg-accent text-white rounded-lg py-2">Enter</button>
+  </form>
+  <p class="text-sm mt-3 text-zinc-600">¿Don't haveaccount? <a class="underline" href="/auth/register">Register</a></p>
+</section>

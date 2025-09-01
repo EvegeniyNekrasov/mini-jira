@@ -1,0 +1,23 @@
+<% layout('layout') -%>
+<section class="max-w-sm mx-auto bg-white border rounded-2xl p-4">
+  <h1 class="text-xl font-semibold mb-3">Register</h1>
+  <% if (typeof error !== 'undefined') { %>
+  <p class="text-red-600 text-sm mb-2"><%= error %></p>
+  <% } %>
+  <form method="post" action="/auth/register">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <label class="block mb-2">
+      <span class="text-sm">Name</span>
+      <input placeholder="name" name="name" class="mt-1 w-full border rounded px-3 py-2" required>
+    </label>
+    <label class="block mb-2">
+      <span class="text-sm">Email</span>
+      <input placeholder="email" name="email" type="email" class="mt-1 w-full border rounded px-3 py-2" required>
+    </label>
+    <label class="block mb-4">
+      <span class="text-sm">Password</span>
+      <input placeholder="password" name="password" type="password" class="mt-1 w-full border rounded px-3 py-2" required>
+    </label>
+    <button class="w-full bg-accent text-white rounded-lg py-2">Create account</button>
+  </form>
+</section>

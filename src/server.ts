@@ -12,6 +12,7 @@ import compression from "compression";
 import csrf from "csurf";
 import { exposeLocals } from "@lib/auth";
 import projectsRoutes from "@routes/projects";
+import authRouter from "@routes/auth";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5000;
@@ -85,6 +86,7 @@ app.use(exposeLocals);
 
 app.get("/", (req, res) => res.redirect("/projects"));
 app.use("/projects", projectsRoutes);
+app.use("/auth", authRouter);
 
 app.listen(PORT, () =>
     console.log(`MINI JIRA: listening on http://localhost:${PORT}`)
