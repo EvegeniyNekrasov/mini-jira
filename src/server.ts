@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
+import path from "path";
 import helmet from "helmet";
 import compression from "compression";
 
@@ -13,6 +14,9 @@ app.use(compression());
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Static
+app.use(express.static(path.join(process.cwd(), "public")));
 
 app.get("/", (req, res) => {
     res.json({ message: "hi" });
