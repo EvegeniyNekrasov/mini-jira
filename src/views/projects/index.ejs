@@ -1,1 +1,26 @@
 <% layout('layout') -%>
+<section class="flex items-center gap-2 mb-4">
+  <h1 class="text-2xl font-semibold">Projects</h1>
+  <div class="ml-auto">
+    <button class="px-3 py-2 border rounded-lg" hx-get="/projects/new" hx-target="#new-project-modal" hx-swap="innerHTML">New project</button>
+  </div>
+</section>
+
+
+<div id="new-project-modal"></div>
+
+
+<table class="w-full bg-white border rounded-2xl overflow-hidden">
+  <thead class="bg-zinc-100 text-sm text-zinc-600">
+    <tr>
+      <th class="text-left px-3 py-2">key</th>
+      <th class="text-left px-3 py-2">Name</th>
+      <th class="text-left px-3 py-2">Actions</th>
+    </tr>
+  </thead>
+  <tbody id="projects-tbody">
+    <% for (const p of projects) { %>
+    <%- include('_project_row', { project: p }) %>
+    <% } %>
+  </tbody>
+</table>

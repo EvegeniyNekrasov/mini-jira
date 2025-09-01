@@ -1,0 +1,20 @@
+<div id="new-project-modal" class="fixed inset-0 bg-black/40 grid place-items-center p-4">
+  <div class="bg-white rounded-2xl border w-full max-w-md p-4">
+    <h3 class="font-semibold mb-3">New project</h3>
+    <form hx-post="/projects" hx-target="#projects-tbody" hx-swap="beforeend">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <label class="block mb-2">
+        <span class="text-sm">Key</span>
+        <input name="key" class="mt-1 w-full border rounded px-3 py-2" required>
+      </label>
+      <label class="block mb-4">
+        <span class="text-sm">Name</span>
+        <input name="name" class="mt-1 w-full border rounded px-3 py-2" required>
+      </label>
+      <div class="flex justify-end gap-2">
+        <button type="button" hx-get="/projects/new?close=1" hx-target="#new-project-modal" hx-swap="innerHTML" class="px-3 py-2 border rounded">Cancel</button>
+        <button class="px-3 py-2 bg-accent text-white rounded">Create</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -13,4 +13,17 @@ projectsRoutes.get("/", async (req, res) => {
     res.render("projects/index", { projects });
 });
 
+projectsRoutes.get("/new", (req, res) => {
+    if (req.query.close) return res.send("");
+    res.render("projects/_create_form");
+});
+
+projectsRoutes.post("/", async (req, res) => {
+    const { name, key } = req.body as { name: string; key: string };
+    const proj = await prisma.project.create({
+        data: { name, key, ownerId: req.session.user!.id },
+    });
+    res.render("projects/create_response", { project: proj });
+});
+
 export default projectsRoutes;
