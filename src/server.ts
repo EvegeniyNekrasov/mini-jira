@@ -11,6 +11,10 @@ import { exposeLocals } from "@lib/auth";
 const app = express();
 const PORT = Number(process.env.PORT) || 5000;
 
+// Views
+app.set("views", path.join(process.cwd(), "src", "views"));
+app.set("view engine", "ejs");
+
 // Middlewares
 app.use(helmet());
 app.use(compression());
