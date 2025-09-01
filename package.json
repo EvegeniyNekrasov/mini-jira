@@ -1,0 +1,54 @@
+{
+    "name": "mini-jira",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "tsx watch src/server.ts",
+        "build": "tsc",
+        "start": "node dist/server.js",
+        "lint": "eslint .",
+        "prisma:studio": "prisma studio"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/EvegeniyNekrasov/mini-jira.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/EvegeniyNekrasov/mini-jira/issues"
+    },
+    "homepage": "https://github.com/EvegeniyNekrasov/mini-jira#readme",
+    "dependencies": {
+        "@prisma/client": "^6.15.0",
+        "bcryptjs": "^3.0.2",
+        "compression": "^1.8.1",
+        "connect-sqlite3": "^0.9.16",
+        "csurf": "^1.11.0",
+        "dotenv": "^17.2.1",
+        "express": "^5.1.0",
+        "express-session": "^1.18.2",
+        "helmet": "^8.1.0",
+        "morgan": "^1.10.1",
+        "zod": "^4.1.5"
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.6",
+        "@types/connect-sqlite3": "^0.9.5",
+        "@types/csurf": "^1.11.5",
+        "@types/express": "^5.0.3",
+        "@types/express-session": "^1.18.2",
+        "@types/morgan": "^1.9.10",
+        "@types/node": "^24.3.0",
+        "eslint": "^9.34.0",
+        "prisma": "^6.15.0",
+        "ts-node": "^10.9.2",
+        "tsc-alias": "^1.8.16",
+        "tslib": "^2.8.1",
+        "tsx": "^4.20.5",
+        "typescript": "^5.9.2"
+    }
+}
